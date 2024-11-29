@@ -1,0 +1,31 @@
+<html>
+    <head>
+    <script src="https://tictac-winter.co.il/cryptojs-aes.min.js"></script>
+    <script src="https://tictac-winter.co.il/cryptojs-aes-format.js"></script>
+    <script src="logic.js"></script>
+    </head>
+    <body>
+        <h1> Update Score </h1>
+        <input type="text" id="textbox1" placeholder="User ID">
+        <input type="text" id="textbox2" placeholder="Score">
+        <button onclick="update_score_wrapper()">Click to update_score</button>
+
+        <br><br><br>
+        <h1> Remove annoying users </h1>
+        <input type="text" id="textbox3" value="20771, 20853, 20962, 21087, 21234, 21250" placeholder="Annoying users">
+        <button onclick="remove_annoying_users()">Remove annoying users</button>
+
+        <br><br><br>
+        <h1> Reset x last users </h1>
+        <input type="text" id="textbox4" placeholder="The Newest user ID (runs from here downwards)">
+        <input type="text" id="textbox5" placeholder="How Much">
+        <button onclick="reset_users_chunk()">Reset</button>
+
+        <br><br><br>
+        <h1> Reset range of users </h1>
+        <input type="text" id="textbox6" placeholder="Start userID (runs downwards)">
+        <input type="text" id="textbox7" placeholder="Finish userID">
+        <button onclick="reset_users_range()">Reset</button>
+
+    </body>
+</html>
