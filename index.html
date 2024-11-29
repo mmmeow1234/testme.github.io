@@ -10,8 +10,8 @@
         // ==========================================================================================
 
         function create_user() {
-            let fullname = parseInt(document.getElementById('textbox0').value);
-            let phone = parseInt(document.getElementById('textbox00').value);
+            let fullname = document.getElementById('textbox0').value;
+            let phone = document.getElementById('textbox00').value;
 
             console.debug("Called create_user with name: " + fullname + ", phone: " + phone);
             return create_user_impl(fullname, phone);
