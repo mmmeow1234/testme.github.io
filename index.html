@@ -138,7 +138,7 @@
                 console.debug("********************************************************************************");
                 console.debug("!!!!!!!!!!! WEIRD ERROR !!!!!!!!!!!");
                 console.debug("********************************************************************************");
-            } else if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash") {
+            } else if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
                 return;
             }
 
@@ -159,7 +159,7 @@
                 console.debug("********************************************************************************");
                 console.debug("!!!!!!!!!!! WEIRD ERROR !!!!!!!!!!!");
                 console.debug("********************************************************************************");
-            } else if (first_place_name != "Yuval Farkash" && first_place_name != "yuval farkash") {
+            } else if (first_place_name != "Yuval Farkash" || first_place_name != "yuval farkash" || first_place_name != "יובל פרקש") {
                 const header = document.createElement('h1');
                 header.textContent = 'Other winner: ' + first_place_name;
                 header.style.color = 'blue';
@@ -191,11 +191,15 @@
 
         async function reset_users_range_impl(start, end) {
             // Now, send the messages
-            for (let i = start; g_stop_all === false && i >= end; i--) {
+            for (let i = start; g_stop_all === false && i >= end; i = i - 5) {
                 // Create the form data (playerId, score, token, data)
-                console.debug("Overwriting: " + i);
+                console.debug("Overwriting: " + i + " til " + i - 5);
                 update_score_impl(i, 50 + (Math.round(Math.random() * 45) * 10));
-                await new Promise(r => setTimeout(r, 1000 + Math.floor(Math.random() * 100)));
+                update_score_impl(i-1, 50 + (Math.round(Math.random() * 45) * 10));
+                update_score_impl(i-2, 50 + (Math.round(Math.random() * 45) * 10));
+                update_score_impl(i-3, 50 + (Math.round(Math.random() * 45) * 10));
+                update_score_impl(i-4, 50 + (Math.round(Math.random() * 45) * 10));
+                await new Promise(r => setTimeout(r, 1500 + Math.floor(Math.random() * 100)));
             }
         }
 
