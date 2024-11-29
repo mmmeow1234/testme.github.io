@@ -82,7 +82,7 @@ function reset_users_chunk() {
     let end = start - count;
 
     console.debug("Calling reset_users_range, start: " + start + "end: " + end);
-    reset_users_range(start, end);
+    reset_users_range_impl(start, end);
 }
 
 function reset_users_range() {
@@ -90,7 +90,7 @@ function reset_users_range() {
     let end = parseInt(document.getElementById('textbox7').value);
 
     console.debug("Calling reset_users_range, start: " + start + "end: " + end);
-    reset_users_range(start, end);
+    reset_users_range_impl(start, end);
 }
 
 async function reset_users_range_impl(start, end) {
