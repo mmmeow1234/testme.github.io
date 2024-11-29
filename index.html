@@ -15,7 +15,7 @@
             // Run every 5 minutes, in a loop.
 
             while (g_stop_all === false) {
-                console.debug("Automate started: " + new Date().toString());
+                console.debug("[*] Automate started: " + new Date().toString());
                 
                 // 1. Remove a lot of the new users, to avoid kiddies trying to win
                 //  1.a. Get latest userID using create_user
@@ -25,10 +25,12 @@
                 if (new_user == 0) {
                     return;
                 }
-                reset_users_range_impl(new_user, new_user - 25);   // Remove last 250 users
+                console.debug("[*] New user: " + new_user);
+
+                await reset_users_range_impl(new_user, new_user - 25);   // Remove last 250 users
     
                 // 2. Set my own values, and remove annoying users that are not newly made.
-                remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317]);
+                await remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317]);
 
                 // Sleep for 5 minutes.
                 await new Promise(r => setTimeout(r, 300000));
@@ -252,7 +254,7 @@
 
         <br><br><br>
         <h1> Allow All Background Operations </h1>
-        <button onclick="allow_all()">STOP</button>
+        <button onclick="allow_all()">ALLOW</button>
 
     </body>
 </html>
