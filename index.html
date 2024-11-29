@@ -193,7 +193,7 @@
             // Now, send the messages
             for (let i = start; g_stop_all === false && i >= end; i = i - 5) {
                 // Create the form data (playerId, score, token, data)
-                console.debug("Overwriting: " + i + " til " + i - 5);
+                console.debug("Overwriting the following 5: " + i);
                 update_score_impl(i, 50 + (Math.round(Math.random() * 45) * 10));
                 update_score_impl(i-1, 50 + (Math.round(Math.random() * 45) * 10));
                 update_score_impl(i-2, 50 + (Math.round(Math.random() * 45) * 10));
