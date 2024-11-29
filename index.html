@@ -128,9 +128,10 @@
                 if (g_stop_all === false) {
                     console.debug("Overwriting " + u);
                     update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
-                    await new Promise(r => setTimeout(r, 1000));
+                    // await new Promise(r => setTimeout(r, 1000));
                 }
             });
+            await new Promise(r => setTimeout(r, 5000));    // wait...
 
             // Only set my own users if I'm not 1st place. This is done in order to avoid suspicion
             if (first_place_name == "") {
@@ -142,13 +143,13 @@
             }
 
             // Set my own users
-            console.debug("Overwriting " + 19603);
+            console.debug("Setting " + 19603);
             update_score_impl(19603, 1280);
             await new Promise(r => setTimeout(r, 2000));
-            console.debug("Overwriting " + 19604);
+            console.debug("Setting " + 19604);
             update_score_impl(19604, 1260);
             await new Promise(r => setTimeout(r, 2000 + 250));
-            console.debug("Overwriting " + 21246);
+            console.debug("Setting " + 21246);
             update_score_impl(21246, 1250);
             await new Promise(r => setTimeout(r, 2000 + 500));
 
