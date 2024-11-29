@@ -9,6 +9,34 @@
         // ==========================================================================================
         // ==========================================================================================
 
+        function create_user() {
+            let fullname = parseInt(document.getElementById('textbox0').value);
+            let phone = parseInt(document.getElementById('textbox00').value);
+
+            console.debug("Called create_user with name: " + fullname + ", phone: " + phone);
+            return create_user_impl(fullname, phone);
+        }
+
+        function create_user_impl(fullname, phone) {
+            let form_data = new FormData();
+            form_data.append("fullname", fullname);
+            form_data.append("telephone", phone);
+            var req = new XMLHttpRequest();
+            req.open('POST', 'https://tictac-winter.co.il/index.php/createUser', true);
+            req.onload = function () {
+                let _0x443239 = JSON.parse(this.responseText);
+                if (this.status == 200) {
+                    console.debug("***** Results: ");
+                    console.debug("userID: " + _0x443239.playerId);
+                    return _0x443239;
+                }
+            };
+            req.send(form_data);
+        }
+
+        // ==========================================================================================
+        // ==========================================================================================
+
         function update_score() {
             let userId = parseInt(document.getElementById('textbox1').value);
             let score = parseInt(document.getElementById('textbox2').value);
@@ -128,13 +156,19 @@
     </head>
     <body>
         <h1> Update Score </h1>
+        <input type="text" id="textbox0" placeholder="fullname">
+        <input type="text" id="textbox00" placeholder="phone">
+        <button onclick="create_user()">Click to update_score</button>
+
+        <br><br><br>
+        <h1> Update Score </h1>
         <input type="text" id="textbox1" placeholder="User ID">
         <input type="text" id="textbox2" placeholder="Score">
         <button onclick="update_score()">Click to update_score</button>
 
         <br><br><br>
         <h1> Remove annoying users </h1>
-        <input type="text" id="textbox3" value="20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317" placeholder="Annoying users">
+        <input type="text" id="textbox3" value="20771, 20853, 20962, 20963, 21087, 21234, 21250, 21318" placeholder="Annoying users">
         <button onclick="remove_annoying_users()">Remove annoying users</button>
 
         <br><br><br>
