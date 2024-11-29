@@ -5,6 +5,34 @@
     <script>
         // [*****] Globals
         let g_stop_all = false;
+        let new_user = 0;
+
+        // ==========================================================================================
+        // ==========================================================================================
+
+        async function automate() {
+            // Run every 15 minutes, in a loop.
+
+            while (g_stop_all === false) {
+                console.debug("Automate started: " + new Date().toString());
+                
+                // 1. Remove a lot of the new users, to avoid kiddies trying to win
+                //  1.a. Get latest userID using create_user
+                //  1.b. Remove x players from the latest using reset_users_range
+                create_user_impl('Gilad Efrati', '1234567890');
+                await new Promise(r => setTimeout(r, 3500));    // Wait for response...
+                if (new_user == 0) {
+                    return;
+                }
+                reset_users_range_impl(new_user, new_user - 25);   // Remove last 250 users
+    
+                // 2. Set my own values, and remove annoying users that are not newly made.
+                remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317]);
+
+                // Sleep for 15 minutes.
+                await new Promise(r => setTimeout(r, 900000));
+            }
+        }
 
         // ==========================================================================================
         // ==========================================================================================
@@ -18,6 +46,7 @@
         }
 
         function create_user_impl(fullname, phone) {
+            new_user = 0;
             let form_data = new FormData();
             form_data.append("fullname", fullname);
             form_data.append("telephone", phone);
@@ -25,9 +54,10 @@
             req.open('POST', 'https://tictac-winter.co.il/index.php/createUser', true);
             req.onload = function () {
                 let _0x443239 = JSON.parse(this.responseText);
-                if (this.status == 200) {
+                if (this.status == 200 && _0x443239.success) {
                     console.debug("***** Results: ");
                     console.debug("userID: " + _0x443239.playerId);
+                    new_user = _0x443239.playerId;
                     return _0x443239;
                 }
             };
@@ -182,6 +212,10 @@
         <input type="text" id="textbox6" placeholder="Start userID (runs downwards)">
         <input type="text" id="textbox7" placeholder="Finish userID">
         <button onclick="reset_users_range()">Reset</button>
+
+        <br><br><br>
+        <h1> Automation </h1>
+        <button onclick="automate()">Run Automation</button>
 
         <br><br><br>
         <h1> Stop All Background Operations </h1>
