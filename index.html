@@ -5,7 +5,7 @@
     <script>
         // [*****] Globals
         let first_place_is_me = false;
-        // let not_me_counter = 0;
+        let not_me_counter = 0;
         let g_stop_all = false;
         let new_user = 0;
         const sleep_time = 60000;
@@ -200,17 +200,24 @@
                     console.debug("position: " + _0x443239.myPosition);
                     let first_place_name = _0x443239.topPlayers[0].fullname;
                     if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
-                        // if (not_me_counter >= 3) {
-                        //     // There was a user who was 1st place, which is not me.
-                        //     // That user was enough time there so that at least 3 update_score detected it.
-                        //     annoying_users_set.add(new_uid);
-                        //     console.debug("Added uid to set: " + Array.from(annoying_users_set).toString());
-                        // }
+                        if (not_me_counter >= 3) {
+                            // There was a user who was 1st place, which is not me.
+                            // That user was enough time there so that at least 3 update_score detected it.
+                            update_score_impl(19603, 1280);
+                            console.debug("Setting " + 19604);
+                            update_score_impl(19604, 1260);
+                            console.debug("Setting " + 21246);
+                            update_score_impl(21246, 1250);
+                            if ([19603, 19604, 21246, 20000, 20001, 20002].includes(userId) === false) {
+                                annoying_users_set.add(new_uid);
+                                console.debug("Added uid to set: " + Array.from(annoying_users_set).toString());
+                            }
+                        }
                         first_place_is_me = true;
-                        // not_me_counter = 0;
+                        not_me_counter = 0;
                     } else {
                         first_place_is_me = false;
-                        // not_me_counter = not_me_counter + 1;
+                        not_me_counter = not_me_counter + 1;
                     }
                     return _0x443239;
                 }
