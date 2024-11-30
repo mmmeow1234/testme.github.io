@@ -24,7 +24,14 @@
                 if (first_place_is_me) {
                     console.debug("I'm already first place!!!");
                     await new Promise(r => setTimeout(r, sleep_time / 2));
-                    update_score_impl(21477, 50 + (Math.round(Math.random() * 45) * 10));
+                    console.debug("Removing annoying...");
+                    [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477, 21648].forEach(u => {
+                        if (g_stop_all === false) {
+                            console.debug("Overwriting " + u);
+                            update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                        }
+                    });
+                    console.debug("Done with annoying");
                     await new Promise(r => setTimeout(r, sleep_time / 2));
                     continue;
                 } else {
@@ -39,11 +46,19 @@
                         update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
                     }
                 });
+                console.debug("Done with annoying");
                 await new Promise(r => setTimeout(r, 5000));    // wait...
                 if (first_place_is_me) {
                     console.debug("I'm now first place (2) !!!");
                     await new Promise(r => setTimeout(r, sleep_time / 2));
-                    update_score_impl(21477, 50 + (Math.round(Math.random() * 45) * 10));
+                    console.debug("Removing annoying...");
+                    [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477, 21648].forEach(u => {
+                        if (g_stop_all === false) {
+                            console.debug("Overwriting " + u);
+                            update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                        }
+                    });
+                    console.debug("Done with annoying");
                     await new Promise(r => setTimeout(r, sleep_time / 2));
                     continue;
                 } else {
@@ -60,7 +75,14 @@
                 if (new_user == 0) {
                     console.debug("NEW USER RETURNED ZERO!!!!!");
                     await new Promise(r => setTimeout(r, sleep_time / 2));
-                    update_score_impl(21477, 50 + (Math.round(Math.random() * 45) * 10));
+                    console.debug("Removing annoying...");
+                    [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477, 21648].forEach(u => {
+                        if (g_stop_all === false) {
+                            console.debug("Overwriting " + u);
+                            update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                        }
+                    });
+                    console.debug("Done with annoying");
                     await new Promise(r => setTimeout(r, sleep_time / 2));
                     continue;
                 }
@@ -92,7 +114,14 @@
                 // Sleep for 1 minutes.
                 console.debug("Going to sleep...");
                 await new Promise(r => setTimeout(r, sleep_time / 2));
-                update_score_impl(21477, 50 + (Math.round(Math.random() * 45) * 10));
+                console.debug("Removing annoying...");
+                [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477, 21648].forEach(u => {
+                    if (g_stop_all === false) {
+                        console.debug("Overwriting " + u);
+                        update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                    }
+                });
+                console.debug("Done with annoying");
                 await new Promise(r => setTimeout(r, sleep_time / 2));
             }
         }
