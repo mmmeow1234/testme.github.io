@@ -198,11 +198,10 @@
                     }
                     console.debug("position: " + _0x443239.myPosition);
                     let first_place_name = _0x443239.topPlayers[0].fullname;
-                    if (first_place_is_me === false &&
-                        (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש")) {
+                    if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
                         first_place_is_me = true;
-                        annoying_users_set.add(new_uid);
-                        console.debug("Added uid to set: " + Array.from(annoying_users_set).toString());
+                        // annoying_users_set.add(new_uid);
+                        // console.debug("Added uid to set: " + Array.from(annoying_users_set).toString());
                     } else {
                         first_place_is_me = false;
                     }
