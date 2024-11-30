@@ -20,6 +20,7 @@
 
                 // 0. If i'm already first, no need to automate anything...
                 update_score_impl(20000, 50 + (Math.round(Math.random() * 45) * 10));
+                await new Promise(r => setTimeout(r, 3500));    // Wait for response...
                 if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
                     console.debug("I'm already first place!!!");
                     await new Promise(r => setTimeout(r, sleep_time));
