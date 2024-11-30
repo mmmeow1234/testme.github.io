@@ -7,6 +7,7 @@
         let first_place_name = "";
         let g_stop_all = false;
         let new_user = 0;
+        const sleep_time = 900000;
 
         // ==========================================================================================
         // ==========================================================================================
@@ -16,24 +17,36 @@
 
             while (g_stop_all === false) {
                 console.debug("[*] Automate started: " + new Date().toString());
-                
+
+                // 0. If i'm already first, no need to automate anything...
+                update_score_impl(20000, 50 + (Math.round(Math.random() * 45) * 10));
+                if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
+                    console.debug("I'm already first place!!!");
+                    await new Promise(r => setTimeout(r, sleep_time));
+                    continue;
+                } else {
+                    console.debug("Not first place. Let's break some stuff...");
+                }
+
                 // 1. Remove a lot of the new users, to avoid kiddies trying to win
                 //  1.a. Get latest userID using create_user
                 //  1.b. Remove x players from the latest using reset_users_range
                 create_user_impl('Gilad Efrati', '1234567890');
                 await new Promise(r => setTimeout(r, 3500));    // Wait for response...
                 if (new_user == 0) {
-                    return;
+                    console.debug("NEW USER RETURNED ZERO!!!!!");
+                    await new Promise(r => setTimeout(r, sleep_time));
+                    continue;
                 }
                 console.debug("[*] New user: " + new_user);
 
-                await reset_users_range_impl(new_user, new_user - 200);   // Remove last 250 users
+                await reset_users_range_impl(new_user - 1, new_user - 200);   // Remove last 250 users
     
                 // 2. Set my own values, and remove annoying users that are not newly made.
                 await remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317]);
 
                 // Sleep for 15 minutes.
-                await new Promise(r => setTimeout(r, 900000));
+                await new Promise(r => setTimeout(r, sleep_time));
             }
         }
 
