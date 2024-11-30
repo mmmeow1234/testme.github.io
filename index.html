@@ -33,7 +33,7 @@
 
                 // 1. Remove only the annoying ones
                 console.debug("Removing annoying...");
-                [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477].forEach(u => {
+                [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477, 21648].forEach(u => {
                     if (g_stop_all === false) {
                         console.debug("Overwriting " + u);
                         update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
@@ -54,7 +54,7 @@
                 //    Make sure to remove in chunks in order to avoid too much traffic.
                 //  2.a. Get latest userID using create_user
                 //  2.b. Remove x players from the latest using reset_users_range
-                console.debug("Creating users...");
+                console.debug("Creating user...");
                 create_user_impl('Gilad Efrati', '1234567890');
                 await new Promise(r => setTimeout(r, 5000));    // Wait for response...
                 if (new_user == 0) {
@@ -81,8 +81,8 @@
                 }
 
                 // 2. Set my own values, with additional fakes to avoid sus
-                console.debug("Updating my own users...");
                 if (g_stop_all === false && first_place_is_me === false) {
+                    console.debug("Updating my own users...");
                     await update_my_users_impl();
                     if (first_place_is_me) {
                         console.debug("I'm now first place (3) !!!");
