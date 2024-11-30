@@ -9,7 +9,7 @@
         let g_stop_all = false;
         let new_user = 0;
         const sleep_time = 60000;
-        let annoying_users_set = new Set([20771, 20853, 20962, 20963, 21087, 21158, 21234, 21250, 21317, 21477, 21648, 21721, 21699]);
+        let annoying_users_set = new Set([20771, 20853, 20962, 20963, 21087, 21158, 21234, 21250, 21317, 21477, 21648, 21721, 21699, 21786]);
 
         // ==========================================================================================
         // ==========================================================================================
@@ -92,14 +92,14 @@
                 console.debug("[*] New user: " + latest_user);
 
                 console.debug("Removing users from top...");
-                for (let count = 0; count < 20; count++) {
+                for (let count = 0; count < 10; count++) {
                     if (g_stop_all === false) {
                         console.debug("[*] Remove 25's chunk: " + count);
                         await reset_users_range_impl(latest_user, latest_user - 25);   // Remove only 100 users chunk
                         if (first_place_is_me) {
                             console.debug("I'm now first place (2) !!!");
                             break;
-                        } else if (count == 1 || count == 10 || count == 19) {
+                        } else if (count == 0 || count == 5 || count == 9) {
                             // 2. Set my own values, with additional fakes to avoid sus
                             console.debug("Updating my own users...");
                             await update_my_users_impl();
@@ -108,7 +108,7 @@
                                 break;
                             }
 
-                            if (count == 10) {
+                            if (count == 5) {
                                 console.debug("Removing annoying...");
                                 Array.from(annoying_users_set).forEach(u => {
                                     if (g_stop_all === false) {
