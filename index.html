@@ -199,11 +199,17 @@
                     console.debug("position: " + _0x443239.myPosition);
                     let first_place_name = _0x443239.topPlayers[0].fullname;
                     if (first_place_name == "Yuval Farkash" || first_place_name == "yuval farkash" || first_place_name == "יובל פרקש") {
+                        if (not_me_counter >= 3) {
+                            // There was a user who was 1st place, which is not me.
+                            // That user was enough time there so that at least 3 update_score detected it.
+                            annoying_users_set.add(new_uid);
+                            console.debug("Added uid to set: " + Array.from(annoying_users_set).toString());
+                        }
                         first_place_is_me = true;
-                        // annoying_users_set.add(new_uid);
-                        // console.debug("Added uid to set: " + Array.from(annoying_users_set).toString());
+                        not_me_counter = 0;
                     } else {
                         first_place_is_me = false;
+                        not_me_counter = not_me_counter + 1;
                     }
                     return _0x443239;
                 }
