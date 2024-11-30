@@ -98,6 +98,13 @@
                         if (first_place_is_me) {
                             console.debug("I'm now first place (2) !!!");
                             break;
+                        } else if (count == 0) {
+                            console.debug("Updating my own users...");
+                            await update_my_users_impl();
+                            if (first_place_is_me) {
+                                console.debug("I'm now first place (3) !!!");
+                                break;
+                            }
                         }
                         latest_user = latest_user - 100;
                     }
