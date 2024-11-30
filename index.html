@@ -94,12 +94,12 @@
                 console.debug("Removing users from top...");
                 for (let count = 0; count < 20; count++) {
                     if (g_stop_all === false) {
-                        console.debug("[*] Remove 50's chunk: " + count);
-                        await reset_users_range_impl(latest_user, latest_user - 50);   // Remove only 100 users chunk
+                        console.debug("[*] Remove 25's chunk: " + count);
+                        await reset_users_range_impl(latest_user, latest_user - 25);   // Remove only 100 users chunk
                         if (first_place_is_me) {
                             console.debug("I'm now first place (2) !!!");
                             break;
-                        } else if (count == 0 || count == 10 || count == 19) {
+                        } else if (count == 1 || count == 10 || count == 19) {
                             // 2. Set my own values, with additional fakes to avoid sus
                             console.debug("Updating my own users...");
                             await update_my_users_impl();
