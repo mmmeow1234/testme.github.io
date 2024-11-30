@@ -7,13 +7,13 @@
         let first_place_name = "";
         let g_stop_all = false;
         let new_user = 0;
-        const sleep_time = 900000;
+        const sleep_time = 180000;
 
         // ==========================================================================================
         // ==========================================================================================
 
         async function automate() {
-            // Run every 15 minutes, in a loop.
+            // Run every 3 minutes, in a loop.
 
             while (g_stop_all === false) {
                 console.debug("[*] Automate started: " + new Date().toString());
@@ -41,12 +41,12 @@
                 }
                 console.debug("[*] New user: " + new_user);
 
-                await reset_users_range_impl(new_user - 1, new_user - 200);   // Remove last 250 users
+                await reset_users_range_impl(new_user - 1, new_user - 300);   // Remove last 250 users
     
                 // 2. Set my own values, and remove annoying users that are not newly made.
                 await remove_annoying_users_impl([20771, 20853, 20962, 20963, 21087, 21234, 21250, 21317]);
 
-                // Sleep for 15 minutes.
+                // Sleep for 3 minutes.
                 await new Promise(r => setTimeout(r, sleep_time));
             }
         }
@@ -213,7 +213,7 @@
                 update_score_impl(i-2, 50 + (Math.round(Math.random() * 45) * 10));
                 update_score_impl(i-3, 50 + (Math.round(Math.random() * 45) * 10));
                 update_score_impl(i-4, 50 + (Math.round(Math.random() * 45) * 10));
-                await new Promise(r => setTimeout(r, 1500 + Math.floor(Math.random() * 100)));
+                await new Promise(r => setTimeout(r, 500 + Math.floor(Math.random() * 100)));
             }
         }
 
