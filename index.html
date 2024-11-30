@@ -91,10 +91,10 @@
                 console.debug("[*] New user: " + latest_user);
 
                 console.debug("Removing users from top...");
-                for (let count = 0; count < 5; count++) {
+                for (let count = 0; count < 10; count++) {
                     if (g_stop_all === false) {
-                        console.debug("[*] Remove 100's chunk: " + count);
-                        await reset_users_range_impl(latest_user, latest_user - 100);   // Remove only 100 users chunk
+                        console.debug("[*] Remove 50's chunk: " + count);
+                        await reset_users_range_impl(latest_user, latest_user - 50);   // Remove only 100 users chunk
                         if (first_place_is_me) {
                             console.debug("I'm now first place (2) !!!");
                             break;
@@ -106,7 +106,7 @@
                                 break;
                             }
                         }
-                        latest_user = latest_user - 100;
+                        latest_user = latest_user - 50;
                     }
                 }
 
